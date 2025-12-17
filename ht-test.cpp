@@ -43,6 +43,7 @@ int main()
         cout << "Did not find hi9" << endl;
     }
     ht.insert({"hi7",17});
+    //cout << "hi7=" << ht["hi7"] << endl;
     cout << "size: " << ht.size() << endl;
     return 0;
 }

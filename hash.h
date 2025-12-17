@@ -5,6 +5,7 @@
 #include <cmath>
 #include <random>
 #include <chrono>
+#include <cctype>
 
 typedef std::size_t HASH_INDEX_T;
 
@@ -20,26 +21,26 @@ struct MyStringHash {
     HASH_INDEX_T operator()(const std::string& k) const
     {
         // Add your code here
-        /*
+        
         unsigned long long w[5] = {0ULL, 0ULL, 0ULL, 0ULL, 0ULL};
 
         const std::size_t len = k.size();
-        const std::size_t numGroups = (len + 5) / 6;
+        const std::size_t numGroups = (len + 5) / 6; // maximum is 5 since len is <= 28
 
         for (std::size_t g = 0; g < numGroups && g < 5; g++) {
-          const std::size_t end = len - 6 * g;
+          const std::size_t end = len - 6 * g; // once past the end of the group in question
           
           std::size_t start;
           if (end >= 6) {
-            start = end - 6;
+            start = end - 6; // start index
           }
           else {
-            start = 0;
+            start = 0; // or 0 if its shorter
           }
 
           const std::size_t index = 4 - g;
 
-          insigned long long value = 0ULL;
+          unsigned long long value = 0ULL;
           for (std::size_t i = start; i < end; ++i) {
             value = value * 36ULL + static_cast<unsigned long long>(letterDigitToNumber(k[i]));
           }
@@ -52,7 +53,7 @@ struct MyStringHash {
         }
 
         return static_cast<HASH_INDEX_T>(hash);
-        */
+        
 
     }
 
@@ -60,16 +61,19 @@ struct MyStringHash {
     HASH_INDEX_T letterDigitToNumber(char letter) const
     {
         // Add code here or delete this helper function if you do not want it
-        /*
-        const unsigned char c = static_cast<unsigned char>(letter);
+        
+        unsigned char c = static_cast<unsigned char>(letter);
 
-        if (std::isdigit(c)) {
-          const unsigned char lower = static_cast<unsigned char>(std::tolower(c));
-          return static_cast<HASH_INDEX_T>(lower - static_cast<unsigned char>('a'));
+        if (std::isalpha(c)) { // if its a letter
+          unsigned char lower = static_cast<unsigned char>(std::tolower(c));
+          return static_cast<HASH_INDEX_T>(lower - static_cast<unsigned char>('a')); // a turns into 0, all the way to z (to 25)
+        }
+        else if (std::isdigit(c)) { // if its a number
+          return static_cast<HASH_INDEX_T>(26 + (c - static_cast<unsigned char>('0'))); //'0' turns into 26 all the way to '9' (into 35)
         }
 
         return 0;
-        */
+        
 
     }
 
